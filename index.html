@@ -11,27 +11,31 @@
     <style>
         :root {
             --primary-glow: #00ffcc;
-            --secondary-glow: #ff00ff; /* Pink del logo para micro-interacciones */
+            --secondary-glow: #ff00ff;
             --bg-darker: #060608;
             --card-border: rgba(255, 255, 255, 0.06);
             --bg-bento: rgba(20, 20, 23, 0.6);
         }
         
+        /* Candado anti-scroll horizontal para celulares */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-darker);
             color: #ffffff;
-            overflow-x: hidden;
             letter-spacing: -0.01em;
         }
 
-        /* Optimización de selección de texto tech */
         ::selection {
             background-color: var(--primary-glow);
             color: var(--bg-darker);
         }
 
-        /* --- Hero Section con Patrón de Datos Sutil --- */
+        /* --- Hero Section --- */
         .hero-section {
             min-height: 100vh;
             display: flex;
@@ -43,12 +47,11 @@
             position: relative;
         }
 
-        /* Patrón de líneas de datos de neón simplificado en el fondo */
         .hero-section::after {
             content: '';
             position: absolute;
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10' fill='%2300ffcc1a'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10' fill='%2300ffcc1a'/%3E%3C/svg%3E");
             opacity: 0.1;
             pointer-events: none;
             z-index: -1;
@@ -56,9 +59,8 @@
 
         .hero-title {
             font-weight: 900;
-            font-size: 4.5rem;
-            line-height: 1;
-            /* Gradiente de texto con rosa del logo */
+            font-size: 4.5rem; /* Tamaño Escritorio */
+            line-height: 1.1;
             background: linear-gradient(135deg, #ffffff 30%, var(--primary-glow) 70%, var(--secondary-glow));
             background-size: 200% auto;
             -webkit-background-clip: text;
@@ -70,7 +72,21 @@
             to { background-position: 200% center; }
         }
 
-        /* --- Botón Magnético --- */
+        /* AJUSTE RESPONSIVO PARA EL TÍTULO EN CELULARES */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 3rem; /* Tamaño Tablet */
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2.2rem; /* Tamaño exacto para que "Arquitectura" quepa en celular */
+                padding: 0 10px; /* Margen de seguridad lateral */
+            }
+        }
+
+        /* --- Botones --- */
         .btn-custom {
             background-color: transparent;
             color: var(--primary-glow);
@@ -94,7 +110,7 @@
             transform: scale(1.03);
         }
 
-        /* --- Estilo de Navegación Refinado con Logo --- */
+        /* --- Navbar --- */
         .navbar-dark .navbar-brand img {
             height: 80px; 
             filter: drop-shadow(0 0 10px rgba(0, 255, 204, 0.3)); 
@@ -130,9 +146,7 @@
             width: 100%;
         }
 
-        /* =========================================
-           AVANZADO FRONTEND: Bento Grid & Dynamic Glow
-           ========================================= */
+        /* --- Bento Grid --- */
         .bento-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -209,7 +223,7 @@
         .bento-item h4 { font-weight: 700; font-size: 1.5rem; }
         .bento-item p { font-size: 0.95rem; line-height: 1.6; }
 
-        /* Estilos Tabs de Industria */
+        /* --- Tabs --- */
         .nav-pills .nav-link { transition: all 0.3s ease; }
         .nav-pills .nav-link:hover { background-color: rgba(255, 255, 255, 0.05); }
         .nav-pills .nav-link.active {
@@ -224,7 +238,7 @@
             color: var(--secondary-glow) !important;
         }
 
-        /* Estilos Contacto Express */
+        /* --- Contacto Express --- */
         .contact-card {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid var(--card-border);
@@ -257,9 +271,7 @@
             margin-bottom: 5px;
         }
 
-        /* =========================================
-           ESTILOS BOTÓN FLOTANTE WHATSAPP
-           ========================================= */
+        /* --- Botón Flotante WhatsApp --- */
         .whatsapp-float {
             position: fixed;
             width: 60px;
@@ -297,7 +309,6 @@
             100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
-        /* Ajuste móvil para el botón flotante */
         @media (max-width: 768px) {
             .whatsapp-float {
                 width: 50px;
@@ -551,14 +562,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        // Función para los botones del Contacto Express
         function contactExpert(tema) {
             const message = `Hola Dev Group Studio 👋. Vengo de la web y me interesa digitalizar mi negocio, específicamente en el área de: ${tema}. ¿Me podrían dar más información?`;
             const url = `https://wa.me/526679530936?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
         }
 
-        // Funcionalidad Bento Grid (Glow)
         const bentoItems = document.querySelectorAll('.bento-item');
         bentoItems.forEach(item => {
             item.addEventListener('mousemove', e => {
