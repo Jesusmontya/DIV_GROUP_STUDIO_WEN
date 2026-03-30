@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dev Group Studio | Elite Digital Architects</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-glow: #00ffcc;
+            --secondary-glow: #ff00ff; /* Pink del logo para micro-interacciones */
+            --bg-darker: #060608;
+            --card-border: rgba(255, 255, 255, 0.06);
+            --bg-bento: rgba(20, 20, 23, 0.6);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-darker);
+            color: #ffffff;
+            overflow-x: hidden;
+            letter-spacing: -0.01em;
+        }
+
+        /* Optimización de selección de texto tech */
+        ::selection {
+            background-color: var(--primary-glow);
+            color: var(--bg-darker);
+        }
+
+        /* --- Hero Section con Patrón de Datos Sutil --- */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: 
+                radial-gradient(circle at 10% 10%, rgba(0, 255, 204, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(255, 0, 255, 0.05) 0%, transparent 40%),
+                var(--bg-darker);
+            position: relative;
+        }
+
+        /* Patrón de líneas de datos de neón simplificado en el fondo */
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10v2h2v-2h10' fill='%2300ffcc1a'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .hero-title {
+            font-weight: 900;
+            font-size: 4.5rem;
+            line-height: 1;
+            /* Gradiente de texto con rosa del logo */
+            background: linear-gradient(135deg, #ffffff 30%, var(--primary-glow) 70%, var(--secondary-glow));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glossText 5s linear infinite;
+        }
+
+        @keyframes glossText {
+            to { background-position: 200% center; }
+        }
+
+        /* --- Botón Magnético --- */
+        .btn-custom {
+            background-color: transparent;
+            color: var(--primary-glow);
+            border: 1px solid rgba(0, 255, 204, 0.3);
+            padding: 12px 35px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-size: 0.85rem;
+            transition: all 0.3s ease-out;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none; 
+        }
+
+        .btn-custom:hover {
+            color: var(--bg-darker);
+            background-color: var(--primary-glow);
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.5);
+            transform: scale(1.03);
+        }
+
+        /* --- Estilo de Navegación Refinado con Logo --- */
+        .navbar-dark .navbar-brand img {
+            height: 80px; 
+            filter: drop-shadow(0 0 10px rgba(0, 255, 204, 0.3)); 
+            width: auto;
+        }
+
+        .brand-text {
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: -0.03em;
+            color: #ffffff;
+        }
+
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+        }
+        
+        .navbar-dark .navbar-nav .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary-glow);
+            transition: width 0.3s;
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* =========================================
+           AVANZADO FRONTEND: Bento Grid & Dynamic Glow
+           ========================================= */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 992px) {
+            .bento-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 576px) {
+            .bento-grid { grid-template-columns: 1fr; }
+        }
+
+        .bento-item {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            transition: border-color 0.3s ease;
+            background-color: var(--bg-bento);
+            --mouse-x: 0px;
+            --mouse-y: 0px;
+        }
+
+        .bento-item-web { grid-column: span 2; grid-row: span 1; }
+        .bento-item-crm { grid-column: span 2; grid-row: span 2; }
+        .bento-item-iot { grid-column: span 2; grid-row: span 1; }
+
+        .bento-item::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                250px circle at var(--mouse-x) var(--mouse-y),
+                rgba(0, 255, 204, 0.12),
+                transparent 40%
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bento-item-crm::before {
+            background: radial-gradient(
+                250px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 0, 255, 0.12),
+                transparent 40%
+            );
+        }
+
+        .bento-item:hover::before { opacity: 1; }
+        .bento-item:hover { border-color: rgba(0, 255, 204, 0.2); }
+        .bento-item-crm:hover { border-color: rgba(255, 0, 255, 0.2); }
+
+        .bento-content {
+            position: relative;
+            z-index: 2;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .bento-item .icon-glow {
+            font-size: 3rem;
+            color: var(--primary-glow);
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+        }
+
+        .bento-item h4 { font-weight: 700; font-size: 1.5rem; }
+        .bento-item p { font-size: 0.95rem; line-height: 1.6; }
+
+        /* Estilos Tabs de Industria */
+        .nav-pills .nav-link { transition: all 0.3s ease; }
+        .nav-pills .nav-link:hover { background-color: rgba(255, 255, 255, 0.05); }
+        .nav-pills .nav-link.active {
+            background-color: transparent !important;
+            border-color: var(--primary-glow) !important;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.15);
+            color: var(--primary-glow) !important;
+        }
+        #retail-tab.active {
+            border-color: var(--secondary-glow) !important;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.15);
+            color: var(--secondary-glow) !important;
+        }
+
+        /* Estilos Contacto Express */
+        .contact-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 100%;
+        }
+
+        .contact-card:hover {
+            background: rgba(0, 255, 204, 0.05);
+            border-color: var(--primary-glow);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(0, 255, 204, 0.1);
+        }
+
+        .icon-box {
+            font-size: 2.5rem;
+            color: var(--primary-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-card:hover .icon-box {
+            transform: scale(1.2);
+            color: var(--secondary-glow);
+        }
+
+        .contact-card h6 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        /* =========================================
+           ESTILOS BOTÓN FLOTANTE WHATSAPP
+           ========================================= */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            color: #FFF;
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(37, 211, 102, 0.8);
+        }
+
+        .pulse {
+            animation: pulse-animation 2s infinite;
+        }
+
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        /* Ajuste móvil para el botón flotante */
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent position-absolute w-100 z-3 pt-4">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="img/nobg_1.png" alt="Dev Group Studio Logo">
+                <span class="brand-text ms-2 d-none d-md-inline">Dev Group Studio</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-lg-3">
+                    <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#industrias">Soluciones</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#enfoque">Enfoque</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://wa.me/526679530936" target="_blank">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-8">
+                    <p class="text-uppercase tracking-wider fs-7 mb-3" style="color: #00ffcc; letter-spacing: 0.2em; font-size: 0.8rem; font-weight: 600;">Full-Stack Engineering Boutique</p>
+                    <h1 class="hero-title mb-4">Arquitectura<br>detrás del código.</h1>
+                    <p class="lead mb-5 text-secondary px-lg-5">Convertimos la complejidad técnica en ventaja competitiva. Diseño y desarrollo de ecosistemas digitales, desde aplicaciones web de alto rendimiento hasta sistemas IoT avanzados.</p>
+                    <a href="https://wa.me/526679530936?text=Hola%20Dev%20Group%20Studio%20%F0%9F%91%8B.%20Estuve%20viendo%20su%20p%C3%A1gina%20web%20y%20me%20interesa%20platicar%20sobre%20un%20proyecto%20tecnol%C3%B3gico%20para%20mi%20negocio.%20%C2%BFMe%20pueden%20dar%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" class="btn btn-custom btn-lg">Iniciar un Proyecto</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="fast-contact" class="py-5" style="background: linear-gradient(180deg, var(--bg-darker) 0%, #0a0a12 100%); border-bottom: 1px solid var(--card-border);">
+        <div class="container text-center py-4">
+            <h2 class="fw-bold mb-4">¿Qué necesita tu negocio hoy?</h2>
+            <p class="text-secondary mb-5">Selecciona tu prioridad y cuéntanos tu proyecto por WhatsApp.</p>
+
+            <div class="row g-4 justify-content-center">
+                <div class="col-6 col-md-3">
+                    <div class="contact-card p-4" onclick="contactExpert('Agendas y Citas')">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-calendar-check-fill"></i>
+                        </div>
+                        <h6>Agendas Inteligentes</h6>
+                        <small class="text-secondary d-none d-md-block">Evita huecos y cancelaciones.</small>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="contact-card p-4" onclick="contactExpert('Expedientes Digitales')">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-file-earmark-medical-fill"></i>
+                        </div>
+                        <h6>Expedientes / Inventarios</h6>
+                        <small class="text-secondary d-none d-md-block">Todo en la nube, 100% seguro.</small>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="contact-card p-4" onclick="contactExpert('E-commerce / Web')">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-shop"></i>
+                        </div>
+                        <h6>Páginas Web / Tiendas</h6>
+                        <small class="text-secondary d-none d-md-block">Vende 24/7 en automático.</small>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <div class="contact-card p-4" onclick="contactExpert('Proyecto a Medida')">
+                        <div class="icon-box mb-3">
+                            <i class="bi bi-plus-circle-dotted"></i>
+                        </div>
+                        <h6>Software a Medida</h6>
+                        <small class="text-secondary d-none d-md-block">Cuéntanos tu idea técnica.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5 pb-3">
+                <p class="text-uppercase tracking-wider fs-7 mb-2 text-secondary" style="letter-spacing: 0.1em; font-size: 0.75rem; font-weight: 500;">Lo que construimos</p>
+                <h2 class="fw-bold display-5">Pilares Tecnológicos</h2>
+            </div>
+            
+            <div id="bento-container" class="bento-grid">
+                
+                <div class="bento-item bento-item-web">
+                    <div class="bento-content">
+                        <i class="bi bi-laptop icon-glow"></i>
+                        <h4 class="mb-3">Desarrollo Web & E-commerce</h4>
+                        <p class="text-secondary">Plataformas robustas y estéticas. No solo creamos sitios; construimos el motor digital de tu marca para capturar la esencia y maximizar la conversión.</p>
+                    </div>
+                </div>
+
+                <div class="bento-item bento-item-crm">
+                    <div class="bento-content">
+                        <i class="bi bi-database-gear icon-glow"></i>
+                        <h4 class="mb-3">Sistemas de Gestión<br>a Medida</h4>
+                        <p class="text-secondary mb-4">Arquitecturas CRM y ERP personalizadas para automatizar tareas operativas complejas. Rigor de ingeniería aplicado a bases de datos escalables para organizar tus datos de manera eficiente.</p>
+                        <div class="mt-auto pt-3 border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+                            <code style="color: #a0a0a0; font-size: 0.75rem;">// Stack: Python, Supabase, Postgres</code>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bento-item bento-item-iot">
+                    <div class="bento-content">
+                        <i class="bi bi-cpu icon-glow"></i>
+                        <h4 class="mb-3">Soluciones IoT & Telemetría</h4>
+                        <p class="text-secondary">Monitoreo remoto y análisis de datos en tiempo real. Llevamos la ingeniería de sistemas al mundo físico, conectando hardware con software.</p>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="industrias" class="py-5 border-top" style="border-color: var(--card-border) !important; background-color: var(--bg-darker);">
+        <div class="container py-5">
+            <div class="text-center mb-5 pb-3">
+                <p class="text-uppercase tracking-wider fs-7 mb-2 text-secondary" style="letter-spacing: 0.1em; font-size: 0.75rem; font-weight: 500;">Casos de Uso</p>
+                <h2 class="fw-bold display-6">Soluciones para tu Industria</h2>
+            </div>
+
+            <ul class="nav nav-pills justify-content-center mb-5 gap-3" id="industryTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active rounded-pill px-4 py-2" id="health-tab" data-bs-toggle="pill" data-bs-target="#health" type="button" role="tab" style="color: white; border: 1px solid var(--card-border);">
+                        <i class="bi bi-heart-pulse me-2 text-info"></i>Consultorios
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill px-4 py-2" id="retail-tab" data-bs-toggle="pill" data-bs-target="#retail" type="button" role="tab" style="color: white; border: 1px solid var(--card-border);">
+                        <i class="bi bi-shop me-2" style="color: var(--secondary-glow);"></i>Cafeterías & Retail
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link rounded-pill px-4 py-2" id="auto-tab" data-bs-toggle="pill" data-bs-target="#auto" type="button" role="tab" style="color: white; border: 1px solid var(--card-border);">
+                        <i class="bi bi-car-front me-2" style="color: var(--primary-glow);"></i>Automotriz & IoT
+                    </button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="industryTabsContent">
+                
+                <div class="tab-pane fade show active" id="health" role="tabpanel">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-5 mb-4 mb-lg-0">
+                            <h3 class="fw-bold mb-3">CRM para Profesionales</h3>
+                            <p class="text-secondary mb-4">Olvídate de las agendas en papel. Desarrollamos sistemas de gestión de pacientes a medida. Control de expedientes, recordatorios automáticos por WhatsApp y finanzas del consultorio en un solo dashboard seguro.</p>
+                            <ul class="list-unstyled text-secondary">
+                                <li class="mb-2"><i class="bi bi-check2-circle text-info me-2"></i> Gestión de citas y expedientes</li>
+                                <li class="mb-2"><i class="bi bi-check2-circle text-info me-2"></i> Bases de datos seguras</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-5 text-center">
+                            <div class="p-4 rounded-4" style="background: rgba(0, 170, 255, 0.05); border: 1px solid rgba(0, 170, 255, 0.2);">
+                                <i class="bi bi-calendar2-check display-1 text-info opacity-75"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="retail" role="tabpanel">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-5 mb-4 mb-lg-0">
+                            <h3 class="fw-bold mb-3">Tu negocio local, en la nube</h3>
+                            <p class="text-secondary mb-4">Desde landing pages estéticas que capturan la esencia de tu marca hasta sistemas completos de punto de venta e inventario en tiempo real. Preparamos tu negocio para escalar y vender más.</p>
+                            <ul class="list-unstyled text-secondary">
+                                <li class="mb-2"><i class="bi bi-check2-circle me-2" style="color: var(--secondary-glow);"></i> E-commerce y catálogos online</li>
+                                <li class="mb-2"><i class="bi bi-check2-circle me-2" style="color: var(--secondary-glow);"></i> Control de stock inteligente</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-5 text-center">
+                            <div class="p-4 rounded-4" style="background: rgba(255, 0, 255, 0.05); border: 1px solid rgba(255, 0, 255, 0.2);">
+                                <i class="bi bi-cup-hot display-1 opacity-75" style="color: var(--secondary-glow);"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="auto" role="tabpanel">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-5 mb-4 mb-lg-0">
+                            <h3 class="fw-bold mb-3">Telemetría de Alto Nivel</h3>
+                            <p class="text-secondary mb-4">Diseñamos arquitecturas que leen datos de hardware físico. Sistemas de diagnóstico remoto para flotillas o agencias que alertan de fallas automotrices antes de que sean críticas.</p>
+                            <ul class="list-unstyled text-secondary">
+                                <li class="mb-2"><i class="bi bi-check2-circle me-2" style="color: var(--primary-glow);"></i> Sensores y monitoreo IoT</li>
+                                <li class="mb-2"><i class="bi bi-check2-circle me-2" style="color: var(--primary-glow);"></i> Dashboards de analítica en tiempo real</li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-5 text-center">
+                            <div class="p-4 rounded-4" style="background: rgba(0, 255, 204, 0.05); border: 1px solid rgba(0, 255, 204, 0.2);">
+                                <i class="bi bi-ev-front display-1 opacity-75" style="color: var(--primary-glow);"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="enfoque" class="py-5" style="background-color: #0c0c0f;">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h2 class="fw-bold mb-4">¿Por qué Dev Group Studio?</h2>
+                    <p class="text-secondary ms-4">Implementamos tecnologías modernas y bases de datos robustas para que tu software crezca junto con tus operaciones.</p>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Tech Setup" class="img-fluid rounded-4 shadow-lg" style="opacity: 0.6; border: 1px solid var(--card-border);">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-5 border-top" style="border-color: var(--card-border) !important;">
+        <div class="container text-center">
+            <h3 class="fw-bold mb-4">¿Listo para escalar tu negocio?</h3>
+            <a href="https://wa.me/526679530936?text=Hola%20Dev%20Group%20Studio%20%F0%9F%91%8B.%20Estuve%20viendo%20su%20p%C3%A1gina%20web%20y%20me%20interesa%20platicar%20sobre%20un%20proyecto%20tecnol%C3%B3gico%20para%20mi%20negocio.%20%C2%BFMe%20pueden%20dar%20m%C3%A1s%20informaci%C3%B3n%3F" target="_blank" class="btn btn-custom">Hablemos de tu proyecto</a>
+            <div class="mt-5 text-secondary small">
+                &copy; 2026 Dev Group Studio. Elite Digital Architects.
+                <div class="d-inline-block ms-2" style="width: 20px; height: 1px; background: linear-gradient(90deg, transparent, var(--secondary-glow), transparent);"></div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/526679530936?text=Hola%20Dev%20Group%20Studio%20%F0%9F%91%8B.%20Estuve%20viendo%20su%20p%C3%A1gina%20web%20y%20me%20interesa%20platicar%20sobre%20un%20proyecto%20tecnol%C3%B3gico%20para%20mi%20negocio.%20%C2%BFMe%20pueden%20dar%20m%C3%A1s%20informaci%C3%B3n%3F" class="whatsapp-float pulse" target="_blank" title="Contáctanos por WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Función para los botones del Contacto Express
+        function contactExpert(tema) {
+            const message = `Hola Dev Group Studio 👋. Vengo de la web y me interesa digitalizar mi negocio, específicamente en el área de: ${tema}. ¿Me podrían dar más información?`;
+            const url = `https://wa.me/526679530936?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // Funcionalidad Bento Grid (Glow)
+        const bentoItems = document.querySelectorAll('.bento-item');
+        bentoItems.forEach(item => {
+            item.addEventListener('mousemove', e => {
+                const rect = item.getBoundingClientRect(),
+                      x = e.clientX - rect.left,
+                      y = e.clientY - rect.top;
+
+                item.style.setProperty('--mouse-x', `${x}px`);
+                item.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body>
+</html>
